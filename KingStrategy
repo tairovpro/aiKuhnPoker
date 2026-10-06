@@ -1,0 +1,24 @@
+_PREFERENCE = ("bet", "call", "check", "fold")
+ 
+def _action_name(action):
+    """Lower-case name of an action, whether it is a str, an Enum, or an object."""
+    for attr in ("name", "type", "kind", "value"):
+        value = getattr(action, attr, None)
+        if value is not None and not callable(value):
+            return _action_name(value) if not isinstance(value, str) else value.lower()
+    return str(action).lower()
+ 
+ 
+class KingStrategy:
+    """Always bet, always call. Never check or fold with the King."""
+ 
+    card = "K"
+ 
+    def act(self, observation):
+        """Return the most aggressive legal action from the observation."""
+        legal = list(observation.legal_actions)  # adjust if the field is named differently
+        for wanted in _PREFERENCE:
+            for action in legal:
+                if wanted in _action_name(action):
+                    return action
+        return legal[0]  # unreachable 
