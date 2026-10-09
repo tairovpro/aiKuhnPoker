@@ -22,11 +22,7 @@ class StrategyMath:
         self.score += hand_result.payout_for(self.player_id)
 
     def bluff_probability(self):
-        """
-        Calculate the bluff probability based on
-        the base strategy and current match score.
-        """
-
+        
         probability = self.BASE_BLUFF_RATE
 
         if self.score >= 3:
